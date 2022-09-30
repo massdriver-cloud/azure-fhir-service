@@ -41,4 +41,11 @@ resource "azurerm_healthcare_fhir_service" "main" {
       image_name   = oci_artifact.value.image_name
     }
   }
+
+  cors {
+    allowed_origins    = ["*"]
+    allowed_headers    = ["*"]
+    allowed_methods    = ["DELETE", "GET", "POST", "OPTIONS", "PUT"]
+    max_age_in_seconds = 600
+  }
 }

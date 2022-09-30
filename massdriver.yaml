@@ -82,8 +82,11 @@ connections:
       $ref: massdriver/azure-service-principal
 
 artifacts:
-  required: []
-  properties: {}
+  required:
+    - azure_fhir_service
+  properties:
+    azure_fhir_service:
+      $ref: massdriver/azure-fhir-service
 
 ui:
   ui:order:
