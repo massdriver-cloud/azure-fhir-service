@@ -1,6 +1,12 @@
 locals {
   max_length        = 24
   alphanumeric_name = substr(replace(var.md_metadata.name_prefix, "/[^a-z0-9]/", ""), 0, local.max_length)
+
+  cors = {
+    headers            = ["*"]
+    methods            = ["GET", "PUT", "POST", "DELETE", "HEAD"]
+    max_age_in_seconds = 600
+  }
 }
 
 resource "azurerm_resource_group" "main" {
@@ -40,5 +46,12 @@ resource "azurerm_healthcare_fhir_service" "main" {
       login_server = oci_artifact.value.login_server
       image_name   = oci_artifact.value.image_name
     }
+  }
+
+  cors {
+    allowed_origins    = [var.database.allowed_origins]
+    allowed_headers    = local.cors.headers
+    allowed_methods    = local.cors.methods
+    max_age_in_seconds = local.cors.max_age_in_seconds
   }
 }
