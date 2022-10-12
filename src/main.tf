@@ -4,7 +4,7 @@ locals {
 
   cors = {
     headers            = ["*"]
-    methods            = ["GET", "PUT", "POST", "DELETE", "HEAD"]
+    methods            = ["GET", "PUT", "POST", "DELETE"]
     max_age_in_seconds = 600
   }
 }
@@ -49,7 +49,7 @@ resource "azurerm_healthcare_fhir_service" "main" {
   }
 
   cors {
-    allowed_origins    = [var.database.allowed_origins]
+    allowed_origins    = var.database.allowed_origins
     allowed_headers    = local.cors.headers
     allowed_methods    = local.cors.methods
     max_age_in_seconds = local.cors.max_age_in_seconds
