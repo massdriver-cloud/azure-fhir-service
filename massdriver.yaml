@@ -41,9 +41,9 @@ params:
           type: array
           items:
             type: string
-            pattern: ^[-a-zA-Z0-9@:%\+~#=_.]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%\+~#?&\/=._]*)$
+            pattern: ^http([s]?):\/\/[-a-zA-Z0-9@:%\+~#=_.]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%\+~#?&\/=._]*)$
             message:
-              pattern: "Invalid domain name. Examples:  'massdriver.cloud', 'www.massdriver.cloud/test'"
+              pattern: "Invalid domain name. Examples:  'http://massdriver.cloud', 'https://www.massdriver.cloud/test'"
         export_data:
           title: Export Data
           description: Export data from the FHIR database to a storage account.
