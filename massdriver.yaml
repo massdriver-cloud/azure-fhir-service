@@ -17,6 +17,7 @@ params:
       type: object
       required:
         - region
+        - allowed_origins
       properties:
         region:
           title: Region
@@ -34,6 +35,15 @@ params:
               const: westus3
             - title: South Central US
               const: southcentralus
+        allowed_origins:
+          title: Allowed CORS Origins
+          description: Origins allowed to access the FHIR API.
+          type: array
+          items:
+            type: string
+            pattern: ^[-a-zA-Z0-9@:%\+~#=_.]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%\+~#?&\/=._]*)$
+            message:
+              pattern: "Invalid domain name. Examples:  'massdriver.cloud', 'www.massdriver.cloud/test'"
         export_data:
           title: Export Data
           description: Export data from the FHIR database to a storage account.
@@ -42,13 +52,9 @@ params:
     registry:
       title: Artifact Configuration
       type: array
-      default: []
       items:
         type: object
         title: Azure Container Registry
-        required:
-          - login_server
-          - image_name
         properties:
           login_server:
             title: Login server
@@ -61,6 +67,11 @@ params:
             title: Image
             description: Image name to use in Azure Container Registry.
             type: string
+        dependencies:
+          login_server:
+            - image_name
+          image_name:
+            - login_server
     logging:
       title: Logging
       type: object
@@ -97,6 +108,7 @@ ui:
   database:
     ui:order:
       - region
+      - allowed_origins
       - export_data
       - "*"
   registry:
