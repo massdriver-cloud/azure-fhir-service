@@ -55,6 +55,8 @@ Form input parameters for configuring a bundle for deployment.
 ## Properties
 
 - **`database`** *(object)*
+  - **`allowed_origins`** *(array)*: Origins allowed to access the FHIR API.
+    - **Items** *(string)*
   - **`export_data`** *(boolean)*: Export data from the FHIR database to a storage account. Default: `False`.
   - **`region`** *(string)*: Region for the FHIR database.
     - **One of**
@@ -65,7 +67,7 @@ Form input parameters for configuring a bundle for deployment.
       - South Central US
 - **`logging`** *(object)*
   - **`enable_logging`** *(boolean)*: Enable diagnostic logging of FHIR to be stored in a storage account. Default: `False`.
-- **`registry`** *(array)*: Default: `[]`.
+- **`registry`** *(array)*
   - **Items** *(object)*
     - **`image_name`** *(string)*: Image name to use in Azure Container Registry.
     - **`login_server`** *(string)*: FHIR Converter templates can be stored on Azure Container Registry as images to be used in the FHIR Server API. You can also remove the images you no longer need.
@@ -124,6 +126,47 @@ Resources created by this bundle that can be connected to other bundles.
 <!-- ARTIFACTS:START -->
 ## Properties
 
+- **`azure_fhir_service`** *(object)*: Azure FHIR Service authentication APIs. Cannot contain additional properties.
+  - **`data`** *(object)*
+    - **`authentication`**: FHIR authentication for API. Cannot contain additional properties.
+      - **`audience`** *(string)*: An HTTPS endpoint URL.
+
+        Examples:
+        ```json
+        "https://example.com/some/path"
+        ```
+
+        ```json
+        "https://massdriver.cloud"
+        ```
+
+      - **`authority`** *(string)*: An HTTPS endpoint URL.
+
+        Examples:
+        ```json
+        "https://example.com/some/path"
+        ```
+
+        ```json
+        "https://massdriver.cloud"
+        ```
+
+    - **`infrastructure`** *(object)*: Minimal Azure Infrastructure Config. Cannot contain additional properties.
+      - **`ari`** *(string)*: Azure Resource ID.
+
+        Examples:
+        ```json
+        "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
+        ```
+
+  - **`specs`** *(object)*
+    - **`azure`** *(object)*: .
+      - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
+        - **One of**
+          - East US
+          - North Central US
+          - South Central US
+          - West US
 <!-- ARTIFACTS:END -->
 
 </details>
