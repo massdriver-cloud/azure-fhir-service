@@ -1,5 +1,5 @@
 locals {
-  max_length        = 24
+  max_length        = 18
   alphanumeric_name = substr(replace(var.md_metadata.name_prefix, "/[^a-z0-9]/", ""), 0, local.max_length)
 
   cors = {

@@ -1,6 +1,6 @@
 resource "azurerm_storage_account" "diag-log" {
   count                     = var.logging.enable_logging ? 1 : 0
-  name                      = "${local.alphanumeric_name}diaglog"
+  name                      = "${local.alphanumeric_name}log"
   resource_group_name       = azurerm_resource_group.main.name
   location                  = azurerm_resource_group.main.location
   account_tier              = "Standard"
