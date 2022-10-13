@@ -23,7 +23,7 @@ resource "azurerm_healthcare_workspace" "main" {
 }
 
 resource "azurerm_healthcare_fhir_service" "main" {
-  name                                      = var.md_metadata.name_prefix
+  name                                      = substr(var.md_metadata.name_prefix, 0, 24)
   location                                  = azurerm_resource_group.main.location
   resource_group_name                       = azurerm_resource_group.main.name
   workspace_id                              = azurerm_healthcare_workspace.main.id
@@ -32,14 +32,17 @@ resource "azurerm_healthcare_fhir_service" "main" {
   tags                                      = var.md_metadata.default_tags
 
   authentication {
+    # authority is used for token validation
     authority = "https://login.microsoftonline.com/${var.azure_service_principal.data.tenant_id}"
-    audience  = "https://${var.md_metadata.name_prefix}.fhir.azurehealthcareapis.com"
+    # audience identifies intended recipients of the token
+    audience = "https://${var.md_metadata.name_prefix}.fhir.azurehealthcareapis.com"
   }
 
   identity {
     type = "SystemAssigned"
   }
 
+  # OCI Artifact allows the user to set multiple Azure Container Registries to store  FHIR Converter templates.
   dynamic "oci_artifact" {
     for_each = { for r in var.registry : r.login_server => r }
     content {
