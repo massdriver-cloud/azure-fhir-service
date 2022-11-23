@@ -5,12 +5,111 @@ source_url: github.com/massdriver-cloud/azure-fhir-service
 access: "private"
 type: "bundle"
 
+MonitorAlarmMetric: &monitor_alarm_metric
+  required:
+    - severity
+    - frequency
+    - window_size
+    - aggregation
+    - operator
+    - threshold
+  properties:
+    severity:
+      title: Severity
+      description: The severity of the alarm.
+      type: integer
+      default: 1
+      oneOf:
+        - title: Critical
+          const: 0
+        - title: Error
+          const: 1
+        - title: Warning
+          const: 2
+        - title: Information
+          const: 3
+        - title: Verbose
+          const: 4
+    frequency:
+      title: Frequency
+      description: The evaluation frequency of the alarms.
+      type: string
+      default: PT1M
+      oneOf:
+        - title: Every 1 minute
+          const: PT1M
+        - title: Every 5 minutes
+          const: PT5M
+        - title: Every 15 minutes
+          const: PT15M
+        - title: Every 30 minutes
+          const: PT30M
+        - title: Every 1 hour
+          const: PT1H
+    window_size:
+      title: Alarm window
+      description: The time range over which the alarm is evaluated.
+      type: string
+      default: PT5M
+      oneOf:
+        - title: Every 1 minute
+          const: PT1M
+        - title: Every 5 minutes
+          const: PT5M
+        - title: Every 15 minutes
+          const: PT15M
+        - title: Every 30 minutes
+          const: PT30M
+        - title: Every 1 hour
+          const: PT1H
+        - title: Every 6 hours
+          const: PT6H
+        - title: Every 12 hours
+          const: PT12H
+        - title: Every 24 hours
+          const: PT1D
+    aggregation:
+      title: Aggregation
+      description: The aggregation type of the alarm.
+      type: string
+      default: Average
+      enum:
+        - Average
+        - Count
+        - Minimum
+        - Maximum
+        - Total
+    operator:
+      title: Operator
+      description: The operator used to compare the metric value to the threshold.
+      type: string
+      default: GreaterThanOrEqual
+      oneOf:
+        - title: Greater than or equal to
+          const: GreaterThanOrEqual
+        - title: Greater than
+          const: GreaterThan
+        - title: Less than or equal to
+          const: LessThanOrEqual
+        - title: Less than
+          const: LessThan
+        - title: Equals
+          const: Equals
+        - title: Not equal to
+          const: NotEquals
+    threshold:
+      title: Threshold
+      description: The threshold for the metric to trigger an alarm. Latency is measured in milliseconds. Availability is measured in percentage. Errors are measured in count.
+      type: integer
+      minimum: 0
+
 params:
   examples: []
   required:
     - database
     - registry
     - logging
+    - monitoring
   properties:
     database:
       title: Database
@@ -20,6 +119,9 @@ params:
         - allowed_origins
       properties:
         region:
+          # List of available regions for the resource type is southcentralus,northeurope,westeurope,eastus,eastus2,
+          # australiaeast,uksouth,westus2,canadacentral,switzerlandnorth,westus3,centralindia,southeastasia,koreacentral,
+          # swedencentral.
           title: Region
           description: Region for the FHIR database.
           type: string
@@ -43,7 +145,7 @@ params:
             type: string
             pattern: ^http([s]?):\/\/[-a-zA-Z0-9@:%\+~#=_.]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%\+~#?&\/=._]*)$
             message:
-              pattern: "Invalid domain name. Examples:  'http://massdriver.cloud', 'https://www.massdriver.cloud/test'"
+              pattern: "Invalid domain name. Examples: 'http://massdriver.cloud', 'https://www.massdriver.cloud/test'"
         export_data:
           title: Export Data
           description: Export data from the FHIR database to a storage account.
@@ -83,14 +185,61 @@ params:
           description: Enable diagnostic logging of FHIR to be stored in a storage account.
           type: boolean
           default: false
+    monitoring:
+      type: object
+      title: Monitoring
+      properties:
+        mode:
+          title: Alarm Mode
+          description: Enable and customize Function App metric alarms.
+          type: string
+          default: AUTOMATED
+          oneOf:
+            - const: AUTOMATED
+              title: Automated
+            - const: CUSTOM
+              title: Custom
+            - const: DISABLED
+              title: Disabled
+      dependencies:
+        mode:
+          oneOf:
+            - properties:
+                mode:
+                  const: AUTOMATED
+            - properties:
+                mode:
+                  const: DISABLED
+            - properties:
+                mode:
+                  const: CUSTOM
+                alarms:
+                  type: object
+                  title: Alarms
+                  properties:
+                    total_latency_metric_alert:
+                      title: Latency
+                      type: object
+                      <<: *monitor_alarm_metric
+                    availability_metric_alert:
+                      title: Availability
+                      type: object
+                      <<: *monitor_alarm_metric
+                    total_errors_metric_alert:
+                      title: Errors
+                      type: object
+                      <<: *monitor_alarm_metric
 
 
 connections:
   required:
     - azure_service_principal
+    - azure_virtual_network
   properties:
     azure_service_principal:
       $ref: massdriver/azure-service-principal
+    azure_virtual_network:
+      $ref: massdriver/azure-virtual-network
 
 artifacts:
   required:
@@ -104,6 +253,7 @@ ui:
     - database
     - registry
     - logging
+    - monitoring
     - "*"
   database:
     ui:order:
@@ -121,3 +271,27 @@ ui:
     ui:order:
       - enable_logging
       - "*"
+  monitoring:
+    ui:order:
+      - mode
+      - alarms
+      - '*'
+    alarms:
+      ui:order:
+        - total_latency_metric_alert
+        - availability_metric_alert
+        - total_errors_metric_alert
+        - '*'
+      total_latency_metric_alert: &monitor_alarm_metric_ui
+        ui:order:
+          - severity
+          - operator
+          - aggregation
+          - frequency
+          - window_size
+          - threshold
+          - '*'
+      availability_metric_alert:
+        <<: *monitor_alarm_metric_ui
+      total_errors_metric_alert:
+        <<: *monitor_alarm_metric_ui
