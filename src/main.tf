@@ -2,6 +2,7 @@ locals {
   max_length        = 18
   alphanumeric_name = substr(replace(var.md_metadata.name_prefix, "/[^a-z0-9]/", ""), 0, local.max_length)
 
+  # This is set up in locals so they're easily accessible to the reader.
   cors = {
     headers            = ["*"]
     methods            = ["GET", "PUT", "POST", "DELETE"]

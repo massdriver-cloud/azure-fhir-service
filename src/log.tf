@@ -10,6 +10,7 @@ resource "azurerm_storage_account" "diag-log" {
   min_tls_version           = "TLS1_2"
   tags                      = var.md_metadata.default_tags
 
+  # This is a recommendation from BridgeCrew to enable logging for storage account queues, even though we aren't using queues in this bundle.
   queue_properties {
     logging {
       delete                = true
@@ -23,12 +24,6 @@ resource "azurerm_storage_account" "diag-log" {
   identity {
     type = "SystemAssigned"
   }
-
-  # network_rules {
-  #   default_action             = "Deny"
-  #   bypass                     = ["AzureServices", "Logging"]
-  #   virtual_network_subnet_ids = [var.azure_virtual_network.data.infrastructure.default_subnet_id]
-  # }
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diag-log" {
