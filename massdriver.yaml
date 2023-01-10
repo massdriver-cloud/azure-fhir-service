@@ -119,24 +119,43 @@ params:
         - allowed_origins
       properties:
         region:
-          # List of available regions for the resource type is southcentralus,northeurope,westeurope,eastus,eastus2,
-          # australiaeast,uksouth,westus2,canadacentral,switzerlandnorth,westus3,centralindia,southeastasia,koreacentral,
-          # swedencentral.
+          # This is the full list of regions for Azure FHIR Service. The list of Azure regions in the MD Azure region widget
+          # is much larger. For now, I'm hardcoding the list here until we can support FHIR availability in the region.
           title: Region
           description: Region for the FHIR database.
           type: string
           $md.immutable: true
           oneOf:
+            - title: Australia East
+              const: australiaeast
+            - title: Canada Central
+              const: canadacentral
+            - title: Central India
+              const: centralindia
             - title: East US
               const: eastus
             - title: East US 2
               const: eastus2
+            - title: Korea Central
+              const: koreacentral
+            - title: North Europe
+              const: northeurope
+            - title: South Central US
+              const: southcentralus
+            - title: Southeast Asia
+              const: southeastasia
+            - title: Sweden Central
+              const: swedencentral
+            - title: Switzerland North
+              const: switzerlandnorth
+            - title: UK South
+              const: uksouth
+            - title: West Europe
+              const: westeurope
             - title: West US 2
               const: westus2
             - title: West US 3
               const: westus3
-            - title: South Central US
-              const: southcentralus
         allowed_origins:
           title: Allowed CORS Origins
           description: Origins allowed to access the FHIR API.
