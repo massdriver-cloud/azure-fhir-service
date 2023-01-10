@@ -7,13 +7,15 @@ resource "azurerm_storage_account" "export" {
   account_replication_type  = "LRS"
   account_kind              = "StorageV2"
   enable_https_traffic_only = true
+  is_hns_enabled            = true
   min_tls_version           = "TLS1_2"
   tags                      = var.md_metadata.default_tags
 
-  network_rules {
-    default_action = "Deny"
-    bypass         = ["AzureServices", "Logging"]
-  }
+  # network_rules {
+  #   default_action             = "Deny"
+  #   bypass                     = ["AzureServices", "Logging"]
+  #   virtual_network_subnet_ids = [var.azure_virtual_network.data.infrastructure.default_subnet_id]
+  # }
 
   queue_properties {
     logging {
@@ -35,4 +37,11 @@ resource "azurerm_role_assignment" "export" {
   scope                = azurerm_storage_account.export[0].id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_healthcare_fhir_service.main.identity[0].principal_id
+}
+
+resource "azurerm_storage_container" "export" {
+  for_each              = { for sc in var.database.export_containers : sc.name => sc }
+  name                  = each.value.name
+  storage_account_name  = azurerm_storage_account.export[0].name
+  container_access_type = "private"
 }

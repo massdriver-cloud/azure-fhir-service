@@ -24,10 +24,11 @@ resource "azurerm_storage_account" "diag-log" {
     type = "SystemAssigned"
   }
 
-  network_rules {
-    default_action = "Deny"
-    bypass         = ["AzureServices", "Logging"]
-  }
+  # network_rules {
+  #   default_action             = "Deny"
+  #   bypass                     = ["AzureServices", "Logging"]
+  #   virtual_network_subnet_ids = [var.azure_virtual_network.data.infrastructure.default_subnet_id]
+  # }
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diag-log" {
