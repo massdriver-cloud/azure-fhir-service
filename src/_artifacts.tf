@@ -12,6 +12,18 @@ resource "massdriver_artifact" "fhir" {
           authority = azurerm_healthcare_fhir_service.main.authentication[0].authority
           audience  = azurerm_healthcare_fhir_service.main.authentication[0].audience
         }
+        security = {
+          iam = {
+            "read" = {
+              role  = "FHIR Data Reader"
+              scope = azurerm_healthcare_workspace.main.id
+            },
+            "read/write" = {
+              role  = "FHIR Data Contributor"
+              scope = azurerm_healthcare_workspace.main.id
+            }
+          }
+        }
       }
     }
   )

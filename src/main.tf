@@ -36,7 +36,7 @@ resource "azurerm_healthcare_fhir_service" "main" {
     # authority is used for token validation
     authority = "https://login.microsoftonline.com/${var.azure_service_principal.data.tenant_id}"
     # audience identifies intended recipients of the token
-    audience = "https://${var.md_metadata.name_prefix}.fhir.azurehealthcareapis.com"
+    audience = "https://${azurerm_healthcare_workspace.main.name}-${var.md_metadata.name_prefix}.fhir.azurehealthcareapis.com"
   }
 
   identity {
