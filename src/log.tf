@@ -1,20 +1,15 @@
 resource "azurerm_storage_account" "diag-log" {
-  count                     = var.logging.enable_logging ? 1 : 0
-  name                      = "${local.alphanumeric_name}log"
-  resource_group_name       = azurerm_resource_group.main.name
-  location                  = azurerm_resource_group.main.location
-  account_tier              = "Standard"
-  account_replication_type  = "LRS"
-  account_kind              = "StorageV2"
-  enable_https_traffic_only = true
-  min_tls_version           = "TLS1_2"
-  tags                      = var.md_metadata.default_tags
-
-  network_rules {
-    default_action             = "Deny"
-    bypass                     = ["AzureServices", "Logging"]
-    virtual_network_subnet_ids = [var.azure_virtual_network.data.infrastructure.default_subnet_id]
-  }
+  count                         = var.logging.enable_logging ? 1 : 0
+  name                          = "${local.alphanumeric_name}log"
+  resource_group_name           = azurerm_resource_group.main.name
+  location                      = azurerm_resource_group.main.location
+  account_tier                  = "Standard"
+  account_replication_type      = "LRS"
+  account_kind                  = "StorageV2"
+  enable_https_traffic_only     = true
+  public_network_access_enabled = true
+  min_tls_version               = "TLS1_2"
+  tags                          = var.md_metadata.default_tags
 
   # This is a recommendation from BridgeCrew to enable logging for storage account queues, even though we aren't using queues in this bundle.
   queue_properties {

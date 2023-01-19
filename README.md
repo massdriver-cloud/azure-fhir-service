@@ -60,11 +60,21 @@ Form input parameters for configuring a bundle for deployment.
   - **`export_data`** *(boolean)*: Export data from the FHIR database to a storage account. Default: `False`.
   - **`region`** *(string)*: Region for the FHIR database.
     - **One of**
+      - Australia East
+      - Canada Central
+      - Central India
       - East US
       - East US 2
+      - Korea Central
+      - North Europe
+      - South Central US
+      - Southeast Asia
+      - Sweden Central
+      - Switzerland North
+      - UK South
+      - West Europe
       - West US 2
       - West US 3
-      - South Central US
 - **`logging`** *(object)*
   - **`enable_logging`** *(boolean)*: Enable diagnostic logging of FHIR to be stored in a storage account. Default: `False`.
 - **`monitoring`** *(object)*
@@ -149,11 +159,6 @@ Connections from other bundles that this bundle depends on.
   - **`specs`** *(object)*
     - **`azure`** *(object)*: .
       - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
-        - **One of**
-          - East US
-          - North Central US
-          - South Central US
-          - West US
 <!-- CONNECTIONS:END -->
 
 </details>
@@ -204,11 +209,6 @@ Resources created by this bundle that can be connected to other bundles.
   - **`specs`** *(object)*
     - **`azure`** *(object)*: .
       - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
-        - **One of**
-          - East US
-          - North Central US
-          - South Central US
-          - West US
 <!-- ARTIFACTS:END -->
 
 </details>
