@@ -158,7 +158,7 @@ params:
           description: Origins allowed to access the FHIR API.
           type: array
           items:
-            title: Origin
+            title: Origin URL
             type: string
             pattern: ^http([s]?):\/\/[-a-zA-Z0-9@:%\+~#=_.]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%\+~#?&\/=._]*)$
             message:

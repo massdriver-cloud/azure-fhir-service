@@ -57,16 +57,25 @@ Form input parameters for configuring a bundle for deployment.
 - **`database`** *(object)*
   - **`allowed_origins`** *(array)*: Origins allowed to access the FHIR API.
     - **Items** *(string)*
-  - **`export_data`** *(boolean)*: Export data from the FHIR database to a storage account. Default: `False`.
-  - **`region`** *(string)*: Region for the FHIR database.
+  - **`region`** *(string)*: Region for the FHIR database. **Cannot be changed after deployment.**.
     - **One of**
+      - Australia East
+      - Canada Central
+      - Central India
       - East US
       - East US 2
+      - Korea Central
+      - North Europe
+      - West Europe
       - West US 2
       - West US 3
       - South Central US
+      - Southeast Asia
+      - Sweden Central
+      - Switzerland North
+      - UK South
 - **`logging`** *(object)*
-  - **`enable_logging`** *(boolean)*: Enable diagnostic logging of FHIR to be stored in a storage account. Default: `False`.
+  - **`enable_logging`** *(boolean)*: Enable diagnostic logging of FHIR to be stored in a blob storage account. Default: `False`.
 - **`monitoring`** *(object)*
   - **`mode`** *(string)*: Enable and customize Function App metric alarms. Default: `AUTOMATED`.
     - **One of**
@@ -77,8 +86,6 @@ Form input parameters for configuring a bundle for deployment.
   - **Items** *(object)*
     - **`image_name`** *(string)*: Image name to use in Azure Container Registry.
     - **`login_server`** *(string)*: FHIR Converter templates can be stored on Azure Container Registry as images to be used in the FHIR Server API. You can also remove the images you no longer need.
-## Examples
-
 <!-- PARAMS:END -->
 
 </details>
@@ -118,6 +125,49 @@ Connections from other bundles that this bundle depends on.
       ```
 
   - **`specs`** *(object)*
+- **`azure_storage_account_data_lake`** *(object)*: . Cannot contain additional properties.
+  - **`data`** *(object)*
+    - **`infrastructure`** *(object)*
+      - **`ari`** *(string)*: Azure Resource ID.
+
+        Examples:
+        ```json
+        "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
+        ```
+
+      - **`endpoint`** *(string)*: Azure Storage Account endpoint authentication. Cannot contain additional properties.
+
+        Examples:
+        ```json
+        "https://storageaccount.blob.core.windows.net/"
+        ```
+
+        ```json
+        "http://storageaccount.file.core.windows.net"
+        ```
+
+        ```json
+        "abfs://filesystem.accountname.dfs.core.windows.net/"
+        ```
+
+        ```json
+        "https://storageaccount.privatelink01.queue.core.windows.net/"
+        ```
+
+    - **`security`** *(object)*: Azure Security Configuration. Cannot contain additional properties.
+      - **`iam`** *(object)*: IAM Roles And Scopes. Cannot contain additional properties.
+        - **`^[a-z]+[a-z_]*[a-z]$`** *(object)*
+          - **`role`**: Azure Role.
+
+            Examples:
+            ```json
+            "Storage Blob Data Reader"
+            ```
+
+          - **`scope`** *(string)*: Azure IAM Scope.
+  - **`specs`** *(object)*
+    - **`azure`** *(object)*: .
+      - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
 - **`azure_virtual_network`** *(object)*: . Cannot contain additional properties.
   - **`data`** *(object)*
     - **`infrastructure`** *(object)*
@@ -149,11 +199,6 @@ Connections from other bundles that this bundle depends on.
   - **`specs`** *(object)*
     - **`azure`** *(object)*: .
       - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
-        - **One of**
-          - East US
-          - North Central US
-          - South Central US
-          - West US
 <!-- CONNECTIONS:END -->
 
 </details>
@@ -201,14 +246,20 @@ Resources created by this bundle that can be connected to other bundles.
         "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
         ```
 
+    - **`security`** *(object)*: Azure Security Configuration. Cannot contain additional properties.
+      - **`iam`** *(object)*: IAM Roles And Scopes. Cannot contain additional properties.
+        - **`^[a-z]+[a-z_]*[a-z]$`** *(object)*
+          - **`role`**: Azure Role.
+
+            Examples:
+            ```json
+            "Storage Blob Data Reader"
+            ```
+
+          - **`scope`** *(string)*: Azure IAM Scope.
   - **`specs`** *(object)*
     - **`azure`** *(object)*: .
       - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
-        - **One of**
-          - East US
-          - North Central US
-          - South Central US
-          - West US
 <!-- ARTIFACTS:END -->
 
 </details>
