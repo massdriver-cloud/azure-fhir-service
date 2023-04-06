@@ -1,11 +1,6 @@
 {
     "do_not_delete": [
-        "azurerm_resource_group.main",
         "azurerm_healthcare_workspace.main",
-        "azurerm_healthcare_fhir_service.main",
-        "azurerm_storage_account.export",
-        "azurerm_storage_account.diag-log",
-        "azurerm_role_assignment.export",
-        "azurerm_monitor_diagnostic_setting.diag-log"
+        "azurerm_healthcare_fhir_service.main"
     ]
 }

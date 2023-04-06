@@ -104,7 +104,6 @@ MonitorAlarmMetric: &monitor_alarm_metric
       minimum: 0
 
 params:
-  examples: []
   required:
     - database
     - registry
@@ -119,38 +118,51 @@ params:
         - allowed_origins
       properties:
         region:
-          # List of available regions for the resource type is southcentralus,northeurope,westeurope,eastus,eastus2,
-          # australiaeast,uksouth,westus2,canadacentral,switzerlandnorth,westus3,centralindia,southeastasia,koreacentral,
-          # swedencentral.
           title: Region
-          description: Region for the FHIR database.
+          description: Region for the FHIR database. **Cannot be changed after deployment.**
           type: string
           $md.immutable: true
           oneOf:
+            - title: Australia East
+              const: australiaeast
+            - title: Canada Central
+              const: canadacentral
+            - title: Central India
+              const: centralindia
             - title: East US
               const: eastus
             - title: East US 2
               const: eastus2
+            - title: Korea Central
+              const: koreacentral
+            - title: North Europe
+              const: northeurope
+            - title: West Europe
+              const: westeurope
             - title: West US 2
               const: westus2
             - title: West US 3
               const: westus3
             - title: South Central US
               const: southcentralus
+            - title: Southeast Asia
+              const: southeastasia
+            - title: Sweden Central
+              const: swedencentral
+            - title: Switzerland North
+              const: switzerlandnorth
+            - title: UK South
+              const: uksouth
         allowed_origins:
           title: Allowed CORS Origins
           description: Origins allowed to access the FHIR API.
           type: array
           items:
+            title: Origin
             type: string
             pattern: ^http([s]?):\/\/[-a-zA-Z0-9@:%\+~#=_.]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%\+~#?&\/=._]*)$
             message:
               pattern: "Invalid domain name. Examples: 'http://massdriver.cloud', 'https://www.massdriver.cloud/test'"
-        export_data:
-          title: Export Data
-          description: Export data from the FHIR database to a storage account.
-          type: boolean
-          default: false
     registry:
       title: Artifact Configuration
       type: array
@@ -182,7 +194,7 @@ params:
       properties:
         enable_logging:
           title: Enable Logging
-          description: Enable diagnostic logging of FHIR to be stored in a storage account.
+          description: Enable diagnostic logging of FHIR to be stored in a blob storage account.
           type: boolean
           default: false
     monitoring:
@@ -230,16 +242,18 @@ params:
                       type: object
                       <<: *monitor_alarm_metric
 
-
 connections:
   required:
     - azure_service_principal
     - azure_virtual_network
+    - azure_storage_account_data_lake
   properties:
     azure_service_principal:
       $ref: massdriver/azure-service-principal
     azure_virtual_network:
       $ref: massdriver/azure-virtual-network
+    azure_storage_account_data_lake:
+      $ref: massdriver/azure-storage-account-data-lake
 
 artifacts:
   required:
@@ -259,7 +273,6 @@ ui:
     ui:order:
       - region
       - allowed_origins
-      - export_data
       - "*"
   registry:
     items:

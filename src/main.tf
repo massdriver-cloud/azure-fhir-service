@@ -1,6 +1,7 @@
 locals {
   max_length        = 18
   alphanumeric_name = substr(replace(var.md_metadata.name_prefix, "/[^a-z0-9]/", ""), 0, local.max_length)
+  data_lake_name    = element(split("/", var.azure_storage_account_data_lake.data.infrastructure.ari), index(split("/", var.azure_storage_account_data_lake.data.infrastructure.ari), "storageAccounts") + 1)
 
   cors = {
     headers            = ["*"]
@@ -28,7 +29,7 @@ resource "azurerm_healthcare_fhir_service" "main" {
   resource_group_name                       = azurerm_resource_group.main.name
   workspace_id                              = azurerm_healthcare_workspace.main.id
   kind                                      = "fhir-R4"
-  configuration_export_storage_account_name = var.database.export_data ? "${local.alphanumeric_name}export" : 0
+  configuration_export_storage_account_name = local.data_lake_name
   tags                                      = var.md_metadata.default_tags
 
   authentication {
