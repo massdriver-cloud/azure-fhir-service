@@ -168,37 +168,6 @@ Connections from other bundles that this bundle depends on.
   - **`specs`** *(object)*
     - **`azure`** *(object)*: .
       - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
-- **`azure_virtual_network`** *(object)*: . Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`infrastructure`** *(object)*
-      - **`cidr`** *(string)*
-
-        Examples:
-        ```json
-        "10.100.0.0/16"
-        ```
-
-        ```json
-        "192.24.12.0/22"
-        ```
-
-      - **`default_subnet_id`** *(string)*: Azure Resource ID.
-
-        Examples:
-        ```json
-        "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
-        ```
-
-      - **`id`** *(string)*: Azure Resource ID.
-
-        Examples:
-        ```json
-        "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
-        ```
-
-  - **`specs`** *(object)*
-    - **`azure`** *(object)*: .
-      - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
 <!-- CONNECTIONS:END -->
 
 </details>
