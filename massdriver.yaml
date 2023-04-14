@@ -245,13 +245,10 @@ params:
 connections:
   required:
     - azure_service_principal
-    - azure_virtual_network
     - azure_storage_account_data_lake
   properties:
     azure_service_principal:
       $ref: massdriver/azure-service-principal
-    azure_virtual_network:
-      $ref: massdriver/azure-virtual-network
     azure_storage_account_data_lake:
       $ref: massdriver/azure-storage-account-data-lake
 
