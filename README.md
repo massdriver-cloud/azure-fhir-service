@@ -17,7 +17,7 @@ Azure FHIR Service enables rapid exchange of health data using the Fast Healthca
 
 ## Design
 
-For detailed information, check out our [Operator Guide](operator.mdx) for this bundle.
+For detailed information, check out our [Operator Guide](operator.md) for this bundle.
 
 ## Usage
 
@@ -37,40 +37,9 @@ Form input parameters for configuring a bundle for deployment.
 <summary>View</summary>
 
 <!-- PARAMS:START -->
-## Properties
 
-- **`database`** *(object)*
-  - **`allowed_origins`** *(array)*: Origins allowed to access the FHIR API.
-    - **Items** *(string)*
-  - **`region`** *(string)*: Region for the FHIR database. **Cannot be changed after deployment.**.
-    - **One of**
-      - Australia East
-      - Canada Central
-      - Central India
-      - East US
-      - East US 2
-      - Korea Central
-      - North Europe
-      - West Europe
-      - West US 2
-      - West US 3
-      - South Central US
-      - Southeast Asia
-      - Sweden Central
-      - Switzerland North
-      - UK South
-- **`logging`** *(object)*
-  - **`enable_logging`** *(boolean)*: Enable diagnostic logging of FHIR to be stored in a blob storage account. Default: `False`.
-- **`monitoring`** *(object)*
-  - **`mode`** *(string)*: Enable and customize Function App metric alarms. Default: `AUTOMATED`.
-    - **One of**
-      - Automated
-      - Custom
-      - Disabled
-- **`registry`** *(array)*
-  - **Items** *(object)*
-    - **`image_name`** *(string)*: Image name to use in Azure Container Registry.
-    - **`login_server`** *(string)*: FHIR Converter templates can be stored on Azure Container Registry as images to be used in the FHIR Server API. You can also remove the images you no longer need.
+**Params coming soon**
+
 <!-- PARAMS:END -->
 
 </details>
@@ -83,76 +52,9 @@ Connections from other bundles that this bundle depends on.
 <summary>View</summary>
 
 <!-- CONNECTIONS:START -->
-## Properties
 
-- **`azure_service_principal`** *(object)*: . Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`client_id`** *(string)*: A valid UUID field.
+**Connections coming soon**
 
-      Examples:
-      ```json
-      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
-      ```
-
-    - **`client_secret`** *(string)*
-    - **`subscription_id`** *(string)*: A valid UUID field.
-
-      Examples:
-      ```json
-      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
-      ```
-
-    - **`tenant_id`** *(string)*: A valid UUID field.
-
-      Examples:
-      ```json
-      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
-      ```
-
-  - **`specs`** *(object)*
-- **`azure_storage_account_data_lake`** *(object)*: . Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`infrastructure`** *(object)*
-      - **`ari`** *(string)*: Azure Resource ID.
-
-        Examples:
-        ```json
-        "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
-        ```
-
-      - **`endpoint`** *(string)*: Azure Storage Account endpoint authentication. Cannot contain additional properties.
-
-        Examples:
-        ```json
-        "https://storageaccount.blob.core.windows.net/"
-        ```
-
-        ```json
-        "http://storageaccount.file.core.windows.net"
-        ```
-
-        ```json
-        "abfs://filesystem.accountname.dfs.core.windows.net/"
-        ```
-
-        ```json
-        "https://storageaccount.privatelink01.queue.core.windows.net/"
-        ```
-
-    - **`security`** *(object)*: Azure Security Configuration. Cannot contain additional properties.
-      - **`iam`** *(object)*: IAM Roles And Scopes. Cannot contain additional properties.
-        - **`^[a-z]+[a-z_]*[a-z]$`** *(object)*
-          - **`role`**: Azure Role.
-
-            Examples:
-            ```json
-            "Storage Blob Data Reader"
-            ```
-
-          - **`scope`** *(string)*: Azure IAM Scope.
-  - **`specs`** *(object)*
-    - **`azure`** *(object)*: .
-      - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
 <!-- CONNECTIONS:END -->
 
 </details>
@@ -165,55 +67,9 @@ Resources created by this bundle that can be connected to other bundles.
 <summary>View</summary>
 
 <!-- ARTIFACTS:START -->
-## Properties
 
-- **`azure_fhir_service`** *(object)*: Azure FHIR Service authentication APIs. Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`authentication`**: FHIR authentication for API. Cannot contain additional properties.
-      - **`audience`** *(string)*: An HTTPS endpoint URL.
+**Artifacts coming soon**
 
-        Examples:
-        ```json
-        "https://example.com/some/path"
-        ```
-
-        ```json
-        "https://massdriver.cloud"
-        ```
-
-      - **`authority`** *(string)*: An HTTPS endpoint URL.
-
-        Examples:
-        ```json
-        "https://example.com/some/path"
-        ```
-
-        ```json
-        "https://massdriver.cloud"
-        ```
-
-    - **`infrastructure`** *(object)*: Minimal Azure Infrastructure Config. Cannot contain additional properties.
-      - **`ari`** *(string)*: Azure Resource ID.
-
-        Examples:
-        ```json
-        "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
-        ```
-
-    - **`security`** *(object)*: Azure Security Configuration. Cannot contain additional properties.
-      - **`iam`** *(object)*: IAM Roles And Scopes. Cannot contain additional properties.
-        - **`^[a-z]+[a-z_]*[a-z]$`** *(object)*
-          - **`role`**: Azure Role.
-
-            Examples:
-            ```json
-            "Storage Blob Data Reader"
-            ```
-
-          - **`scope`** *(string)*: Azure IAM Scope.
-  - **`specs`** *(object)*
-    - **`azure`** *(object)*: .
-      - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
 <!-- ARTIFACTS:END -->
 
 </details>
