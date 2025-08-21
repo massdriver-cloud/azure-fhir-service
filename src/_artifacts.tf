@@ -1,7 +1,6 @@
 resource "massdriver_artifact" "azure_fhir_service" {
-  field                = "azure_fhir_service"
-  provider_resource_id = azurerm_healthcare_fhir_service.main.id
-  name                 = "Azure FHIR Service ${var.md_metadata.name_prefix} (${azurerm_healthcare_fhir_service.main.id})"
+  field    = "azure_fhir_service"
+  name     = "Azure FHIR Service ${var.md_metadata.name_prefix} (${azurerm_healthcare_fhir_service.main.id})"
   artifact = jsonencode(
     {
       data = {
