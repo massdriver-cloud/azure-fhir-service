@@ -1,158 +1,155 @@
 schema: draft-07
-name: "azure-fhir-service"
-description: "Azure FHIR Service enables rapid exchange of health data using the Fast Healthcare Interoperability Resources (FHIR) data standard."
-source_url: github.com/massdriver-cloud/azure-fhir-service
-access: public
-type: infrastructure
-
-MonitorAlarmMetric: &monitor_alarm_metric
-  required:
-    - severity
-    - frequency
-    - window_size
-    - aggregation
-    - operator
-    - threshold
-  properties:
+name: azure-fhir-service
+version: 1.0.0
+description: Azure FHIR Service enables rapid exchange of health data using the Fast Healthcare Interoperability Resources (FHIR) data standard.
+source_url: https://github.com/massdriver-cloud/azure-fhir-service
+MonitorAlarmMetric:
+  required: &1
+  - severity
+  - frequency
+  - window_size
+  - aggregation
+  - operator
+  - threshold
+  properties: &2
     severity:
       title: Severity
       description: The severity of the alarm.
       type: integer
       default: 1
       oneOf:
-        - title: Critical
-          const: 0
-        - title: Error
-          const: 1
-        - title: Warning
-          const: 2
-        - title: Information
-          const: 3
-        - title: Verbose
-          const: 4
+      - title: Critical
+        const: 0
+      - title: Error
+        const: 1
+      - title: Warning
+        const: 2
+      - title: Information
+        const: 3
+      - title: Verbose
+        const: 4
     frequency:
       title: Frequency
       description: The evaluation frequency of the alarms.
       type: string
       default: PT1M
       oneOf:
-        - title: Every 1 minute
-          const: PT1M
-        - title: Every 5 minutes
-          const: PT5M
-        - title: Every 15 minutes
-          const: PT15M
-        - title: Every 30 minutes
-          const: PT30M
-        - title: Every 1 hour
-          const: PT1H
+      - title: Every 1 minute
+        const: PT1M
+      - title: Every 5 minutes
+        const: PT5M
+      - title: Every 15 minutes
+        const: PT15M
+      - title: Every 30 minutes
+        const: PT30M
+      - title: Every 1 hour
+        const: PT1H
     window_size:
       title: Alarm window
       description: The time range over which the alarm is evaluated.
       type: string
       default: PT5M
       oneOf:
-        - title: Every 1 minute
-          const: PT1M
-        - title: Every 5 minutes
-          const: PT5M
-        - title: Every 15 minutes
-          const: PT15M
-        - title: Every 30 minutes
-          const: PT30M
-        - title: Every 1 hour
-          const: PT1H
-        - title: Every 6 hours
-          const: PT6H
-        - title: Every 12 hours
-          const: PT12H
-        - title: Every 24 hours
-          const: P1D
+      - title: Every 1 minute
+        const: PT1M
+      - title: Every 5 minutes
+        const: PT5M
+      - title: Every 15 minutes
+        const: PT15M
+      - title: Every 30 minutes
+        const: PT30M
+      - title: Every 1 hour
+        const: PT1H
+      - title: Every 6 hours
+        const: PT6H
+      - title: Every 12 hours
+        const: PT12H
+      - title: Every 24 hours
+        const: P1D
     aggregation:
       title: Aggregation
       description: The aggregation type of the alarm.
       type: string
       default: Average
       enum:
-        - Average
-        - Count
-        - Minimum
-        - Maximum
-        - Total
+      - Average
+      - Count
+      - Minimum
+      - Maximum
+      - Total
     operator:
       title: Operator
       description: The operator used to compare the metric value to the threshold.
       type: string
       default: GreaterThanOrEqual
       oneOf:
-        - title: Greater than or equal to
-          const: GreaterThanOrEqual
-        - title: Greater than
-          const: GreaterThan
-        - title: Less than or equal to
-          const: LessThanOrEqual
-        - title: Less than
-          const: LessThan
-        - title: Equals
-          const: Equals
-        - title: Not equal to
-          const: NotEquals
+      - title: Greater than or equal to
+        const: GreaterThanOrEqual
+      - title: Greater than
+        const: GreaterThan
+      - title: Less than or equal to
+        const: LessThanOrEqual
+      - title: Less than
+        const: LessThan
+      - title: Equals
+        const: Equals
+      - title: Not equal to
+        const: NotEquals
     threshold:
       title: Threshold
       description: The threshold for the metric to trigger an alarm. Latency is measured in milliseconds. Availability is measured in percentage. Errors are measured in count.
       type: integer
       minimum: 0
-
 params:
   required:
-    - database
-    - registry
-    - logging
-    - monitoring
+  - database
+  - registry
+  - logging
+  - monitoring
   properties:
     database:
       title: Database
       type: object
       required:
-        - region
-        - allowed_origins
+      - region
+      - allowed_origins
       properties:
         region:
           title: Region
           description: Region for the FHIR database. **Cannot be changed after deployment.**
           type: string
-          $md.immutable: true
+          "$md.immutable": true
           oneOf:
-            - title: Australia East
-              const: australiaeast
-            - title: Canada Central
-              const: canadacentral
-            - title: Central India
-              const: centralindia
-            - title: East US
-              const: eastus
-            - title: East US 2
-              const: eastus2
-            - title: Korea Central
-              const: koreacentral
-            - title: North Europe
-              const: northeurope
-            - title: West Europe
-              const: westeurope
-            - title: West US 2
-              const: westus2
-            - title: West US 3
-              const: westus3
-            - title: South Central US
-              const: southcentralus
-            - title: Southeast Asia
-              const: southeastasia
-            - title: Sweden Central
-              const: swedencentral
-            - title: Switzerland North
-              const: switzerlandnorth
-            - title: UK South
-              const: uksouth
+          - title: Australia East
+            const: australiaeast
+          - title: Canada Central
+            const: canadacentral
+          - title: Central India
+            const: centralindia
+          - title: East US
+            const: eastus
+          - title: East US 2
+            const: eastus2
+          - title: Korea Central
+            const: koreacentral
+          - title: North Europe
+            const: northeurope
+          - title: West Europe
+            const: westeurope
+          - title: West US 2
+            const: westus2
+          - title: West US 3
+            const: westus3
+          - title: South Central US
+            const: southcentralus
+          - title: Southeast Asia
+            const: southeastasia
+          - title: Sweden Central
+            const: swedencentral
+          - title: Switzerland North
+            const: switzerlandnorth
+          - title: UK South
+            const: uksouth
         allowed_origins:
           title: Allowed CORS Origins
           description: Origins allowed to access the FHIR API.
@@ -160,9 +157,9 @@ params:
           items:
             title: Origin URL
             type: string
-            pattern: ^http([s]?):\/\/[-a-zA-Z0-9@:%\+~#=_.]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%\+~#?&\/=._]*)$
+            pattern: "^http([s]?):\\/\\/[-a-zA-Z0-9@:%\\+~#=_.]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%\\+~#?&\\/=._]*)$"
             message:
-              pattern: "Invalid domain name. Examples: 'http://massdriver.cloud', 'https://www.massdriver.cloud/test'"
+              pattern: 'Invalid domain name. Examples: ''http://massdriver.cloud'', ''https://www.massdriver.cloud/test'''
     registry:
       title: Artifact Configuration
       type: array
@@ -174,7 +171,7 @@ params:
             title: Login server
             description: FHIR Converter templates can be stored on Azure Container Registry as images to be used in the FHIR Server API. You can also remove the images you no longer need.
             type: string
-            pattern: ^[a-z0-9]{5,50}\.azurecr\.io$
+            pattern: "^[a-z0-9]{5,50}\\.azurecr\\.io$"
             message:
               pattern: Invalid Azure Container Registry URL. Must be in the format of <registry>.azurecr.io
           image_name:
@@ -183,14 +180,14 @@ params:
             type: string
         dependencies:
           login_server:
-            - image_name
+          - image_name
           image_name:
-            - login_server
+          - login_server
     logging:
       title: Logging
       type: object
       required:
-        - enable_logging
+      - enable_logging
       properties:
         enable_logging:
           title: Enable Logging
@@ -207,101 +204,107 @@ params:
           type: string
           default: AUTOMATED
           oneOf:
-            - const: AUTOMATED
-              title: Automated
-            - const: CUSTOM
-              title: Custom
-            - const: DISABLED
-              title: Disabled
+          - const: AUTOMATED
+            title: Automated
+          - const: CUSTOM
+            title: Custom
+          - const: DISABLED
+            title: Disabled
       dependencies:
         mode:
           oneOf:
-            - properties:
-                mode:
-                  const: AUTOMATED
-            - properties:
-                mode:
-                  const: DISABLED
-            - properties:
-                mode:
-                  const: CUSTOM
-                alarms:
-                  type: object
-                  title: Alarms
-                  properties:
-                    total_latency_metric_alert:
-                      title: Latency
-                      type: object
-                      <<: *monitor_alarm_metric
-                    availability_metric_alert:
-                      title: Availability
-                      type: object
-                      <<: *monitor_alarm_metric
-                    total_errors_metric_alert:
-                      title: Errors
-                      type: object
-                      <<: *monitor_alarm_metric
-
+          - properties:
+              mode:
+                const: AUTOMATED
+          - properties:
+              mode:
+                const: DISABLED
+          - properties:
+              mode:
+                const: CUSTOM
+              alarms:
+                type: object
+                title: Alarms
+                properties:
+                  total_latency_metric_alert:
+                    title: Latency
+                    type: object
+                    required: *1
+                    properties: *2
+                  availability_metric_alert:
+                    title: Availability
+                    type: object
+                    required: *1
+                    properties: *2
+                  total_errors_metric_alert:
+                    title: Errors
+                    type: object
+                    required: *1
+                    properties: *2
 connections:
   required:
-    - azure_service_principal
-    - azure_storage_account_data_lake
+  - azure_service_principal
+  - azure_storage_account_data_lake
   properties:
     azure_service_principal:
-      $ref: massdriver/azure-service-principal
+      "$ref": massdriver/azure-service-principal
     azure_storage_account_data_lake:
-      $ref: massdriver/azure-storage-account-data-lake
-
+      "$ref": massdriver/azure-storage-account-data-lake
 artifacts:
   required:
-    - azure_fhir_service
+  - azure_fhir_service
   properties:
     azure_fhir_service:
-      $ref: massdriver/azure-fhir-service
-
+      "$ref": massdriver/azure-fhir-service
 ui:
   ui:order:
-    - database
-    - registry
-    - logging
-    - monitoring
-    - "*"
+  - database
+  - registry
+  - logging
+  - monitoring
+  - "*"
   database:
     ui:order:
-      - region
-      - allowed_origins
-      - "*"
+    - region
+    - allowed_origins
+    - "*"
   registry:
     items:
       ui:order:
-        - login_server
-        - image_name
-        - "*"
+      - login_server
+      - image_name
+      - "*"
   logging:
     ui:order:
-      - enable_logging
-      - "*"
+    - enable_logging
+    - "*"
   monitoring:
     ui:order:
-      - mode
-      - alarms
-      - '*'
+    - mode
+    - alarms
+    - "*"
     alarms:
       ui:order:
-        - total_latency_metric_alert
-        - availability_metric_alert
-        - total_errors_metric_alert
-        - '*'
-      total_latency_metric_alert: &monitor_alarm_metric_ui
-        ui:order:
-          - severity
-          - operator
-          - aggregation
-          - frequency
-          - window_size
-          - threshold
-          - '*'
+      - total_latency_metric_alert
+      - availability_metric_alert
+      - total_errors_metric_alert
+      - "*"
+      total_latency_metric_alert:
+        ui:order: &3
+        - severity
+        - operator
+        - aggregation
+        - frequency
+        - window_size
+        - threshold
+        - "*"
       availability_metric_alert:
-        <<: *monitor_alarm_metric_ui
+        ui:order: *3
       total_errors_metric_alert:
-        <<: *monitor_alarm_metric_ui
+        ui:order: *3
+steps:
+- path: src
+  provisioner: opentofu
+  config:
+    checkov:
+      enable: true
