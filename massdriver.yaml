@@ -153,13 +153,13 @@ params:
         allowed_origins:
           title: Allowed CORS Origins
           description: Origins allowed to access the FHIR API.
-          type: array
-          items:
-            title: Origin URL
-            type: string
-            pattern: "^http([s]?):\\/\\/[-a-zA-Z0-9@:%\\+~#=_.]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%\\+~#?&\\/=._]*)$"
-            message:
-              pattern: 'Invalid domain name. Examples: ''http://massdriver.cloud'', ''https://www.massdriver.cloud/test'''
+          type: string
+          # items:
+          #   title: Origin URL
+          #   type: string
+          #   pattern: "^http([s]?):\\/\\/[-a-zA-Z0-9@:%\\+~#=_.]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%\\+~#?&\\/=._]*)$"
+          #   message:
+          #     pattern: 'Invalid domain name. Examples: ''http://massdriver.cloud'', ''https://www.massdriver.cloud/test'''
     registry:
       title: Artifact Configuration
       type: array
@@ -243,19 +243,19 @@ params:
                     properties: *2
 connections:
   required:
-  - azure_service_principal
+  - azure_authentication
   - azure_storage_account_data_lake
   properties:
-    azure_service_principal:
-      "$ref": massdriver/azure-service-principal
+    azure_authentication:
+      "$ref": azure-service-principal
     azure_storage_account_data_lake:
-      "$ref": massdriver/azure-storage-account-data-lake
+      "$ref": azure-storage-account-data-lake
 artifacts:
   required:
   - azure_fhir_service
   properties:
     azure_fhir_service:
-      "$ref": massdriver/azure-fhir-service
+      "$ref": azure-fhir-service
 ui:
   ui:order:
   - database
