@@ -1,7 +1,7 @@
 locals {
   max_length        = 18
   alphanumeric_name = substr(replace(var.md_metadata.name_prefix, "/[^a-z0-9]/", ""), 0, local.max_length)
-  data_lake_name    = element(split("/", var.azure_storage_account_data_lake.data.infrastructure.ari), index(split("/", var.azure_storage_account_data_lake.data.infrastructure.ari), "storageAccounts") + 1)
+  data_lake_name    = element(split("/", var.azure_storage_account_data_lake.infrastructure.ari), index(split("/", var.azure_storage_account_data_lake.infrastructure.ari), "storageAccounts") + 1)
 
   cors = {
     headers            = ["*"]
@@ -34,7 +34,7 @@ resource "azurerm_healthcare_fhir_service" "main" {
 
   authentication {
     # authority is used for token validation
-    authority = "https://login.microsoftonline.com/${var.azure_service_principal.data.tenant_id}"
+    authority = "https://login.microsoftonline.com/${var.azure_service_principal.tenant_id}"
     # audience identifies intended recipients of the token
     audience = "https://${var.md_metadata.name_prefix}.fhir.azurehealthcareapis.com"
   }

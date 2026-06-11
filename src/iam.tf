@@ -1,5 +1,5 @@
 resource "azurerm_role_assignment" "export" {
-  scope                = var.azure_storage_account_data_lake.data.infrastructure.ari
+  scope                = var.azure_storage_account_data_lake.infrastructure.ari
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_healthcare_fhir_service.main.identity[0].principal_id
 }

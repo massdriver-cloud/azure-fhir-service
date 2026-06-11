@@ -11,17 +11,15 @@ variable "azure_authentication" {
 }
 variable "azure_storage_account_data_lake" {
   type = object({
-    data = object({
-      infrastructure = object({
-        ari      = string
-        endpoint = string
-      })
-      security = object({
-        iam = optional(map(object({
-          role  = any
-          scope = string
-        })))
-      })
+    infrastructure = object({
+      ari      = string
+      endpoint = string
+    })
+    security = object({
+      iam = optional(map(object({
+        role  = any
+        scope = string
+      })))
     })
     specs = object({
       azure = optional(object({
